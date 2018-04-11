@@ -31,6 +31,11 @@
 	min-width: 270px;
 }
 
+.login-register {
+	width:300px;
+	margin: 20vh auto;
+}
+
 .navbar.navbar-inverse {
 	border-radius: 0px;
 }

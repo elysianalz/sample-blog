@@ -1,20 +1,20 @@
 <% include ../partials/header %>
-
-	<h1>Edit <%=blog.title%></h1>
-	<form id="auth-form" method="POST" action="/blogs/<%=blog._id%>/edit?_method=PUT">
 	
-		<div class="form-group">
-			<input class="form-control" type="text" name="blog[title]" value="<%=blog.title%>">
-		</div>
-		<div class="form-group">
-			<input class="form-control" type="text" name="blog[image]" value="<%=blog.image%>">
-		</div>
-		<div class="form-group">
-			<input class="form-control" type="text" name="blog[content]" value="<%=blog.content%>">
-		</div>
-		<div class="form-group">
-			<button class="btn btn-md btn-default btn-primary form-control">Edit</button>
-		</div>
-		
-	</form>
+	<div class="sml-container center-block">
+		<h1>Edit <%=blog.title%></h1>
+		<form id="auth-form" method="POST" action="/blogs/<%=blog._id%>/edit?_method=PUT">
+			<div class="form-group">
+				<input class="form-control" type="text" name="blog[title]" value="<%=blog.title%>">
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="text" name="blog[image]" value="<%=blog.image%>">
+			</div>
+			<div class="form-group">
+				<textarea rows="15" class="form-control" type="text" name="blog[content]"><%=blog.content%></textarea>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-md btn-default btn-primary form-control">Edit</button>
+			</div>
+		</form>
+	</div>
 <% include ../partials/footer %>

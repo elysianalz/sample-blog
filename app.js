@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var flash = require("connect-flash");
+var expressSanitizer = require("express-sanitizer");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 app.use(express.static(__dirname+ "/public"));
 app.use(flash());
+app.use(expressSanitizer());
 
 mongoose.connect("mongodb://localhost:27017/blog_test");
 

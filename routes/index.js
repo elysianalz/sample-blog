@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
+var expressSanitizer = require("express-sanitizer");
 var Blog = require("../models/blog");
 var Comment = require("../models/comment");
 
@@ -27,6 +28,7 @@ router.get("/blogs/new", function(req, res){
 });
 
 router.post("/blogs", function(req, res){
+	req.body.blog.content = req.sanitize(req.body.blog.content);
 	Blog.create(req.body.blog, function(err, newBlog){
 		if(err || !newBlog){
 			req.flash("error", err.message);
@@ -76,6 +78,7 @@ router.get("/blogs/:id/edit", function(req, res){
 });
 
 router.put("/blogs/:id/edit", function(req, res){
+	req.body.blog.content = req.sanitize(req.body.blog.content);
 	Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, newBlog){
 		if(err || !newBlog){
 			req.flash("err", err.message);
