@@ -1,13 +1,13 @@
 <% include ../partials/header %>
 
 	<div class="thumbnail blog-head">
-		
-			<h1><%=blog.title%></h1>
-			<img id="blog-image" src="<%=blog.image%>">
-			<div class="caption">
-				<p><%-blog.content%></p>
-				<span><strong><em><%=blog.author%></em></strong></span>
-				<span class="pull-right"><%=blog.created.toDateString()%></span>
+		<h1><%=blog.title%></h1>
+		<img id="blog-image" src="<%=blog.image%>">
+		<div class="caption">
+			<p><%-blog.content%></p>
+			<span><strong><em><%=blog.author%></em></strong></span>
+			<span class="pull-right"><%=blog.created.toDateString()%></span>
+			<%if(currentUser && currentUser.username == blog.author){%>
 				<div>
 					<form class="inline-form" action="/blogs/<%=blog._id%>/delete?_method=DELETE" method="POST">
 						<button class="btn btn-xs btn-danger">Delete</button>
@@ -16,8 +16,8 @@
 						<button class="btn btn-xs btn-warning inline-form">Edit</button>
 					</form>
 				</div>
-			</div>
-		
+			<%}%>	
+		</div>	
 	</div>
 
 	<div class="well">
@@ -41,23 +41,26 @@
 			<span class="pull-right"><%=comment.created.toDateString()%></span>
 			<p id="comment-text"><%=comment.text%></p>
 
-			<form class="form-group inline-form" id="edit-comment-form" method="POST" action="/blogs/<%-blog._id%>/<%=comment._id%>/edit?_method=PUT">
-				<div class="row">
-					<div class="col-md-10">
-						<input class="form-control" type="text" name="text" value="<%=comment.text%>">
-					</div>
-					<div class="col-md-2">
-						<button class="btn btn-md btn-warning inline-form">Edit</button>
-						<a id="cancle-button" class="btn btn-md btn-danger">Cancle</a>
-					</div>
-				</div>	
-			</form>
-
-
-			<form class="inline-form" method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
-				<button id="delete-button" class="btn btn-xs btn-danger">Delete</button>
-			</form>
-			<button id="show-edit" class="btn btn-xs btn-warning inline-form">Edit</button>
+			<%if(currentUser && currentUser.username == comment.author){%>
+				<form class="form-group inline-form" id="edit-comment-form" method="POST" action="/blogs/<%-blog._id%>/<%=comment._id%>/edit?_method=PUT">
+					<div class="row">
+						<div class="col-md-10">
+							<input class="form-control" type="text" name="text" value="<%=comment.text%>">
+						</div>
+						<div class="col-md-2">
+							<button class="btn btn-md btn-warning inline-form">Edit</button>
+							<a id="cancle-button" class="btn btn-md btn-danger">Cancle</a>
+						</div>
+					</div>	
+				</form>
+			<%}%>
+			
+			<%if(currentUser && currentUser.username == comment.author){%>
+				<form class="inline-form" method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
+					<button id="delete-button" class="btn btn-xs btn-danger">Delete</button>
+				</form>
+				<button id="show-edit" class="btn btn-xs btn-warning inline-form">Edit</button>
+			<%}%>
 		<%});%>
 
 	</div>

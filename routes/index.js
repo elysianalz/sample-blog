@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 var expressSanitizer = require("express-sanitizer");
 var Blog = require("../models/blog");
 var Comment = require("../models/comment");
+var middleware = require("../middleware");
 
 //home routes
 router.get("/", function(req, res){
@@ -19,15 +20,14 @@ router.get("/blogs", function(req, res){
 			res.render("home", {blogs: foundBlogs});
 		}
 	});
-	
 });
 
 //create new blog routes
-router.get("/blogs/new", function(req, res){
+router.get("/blogs/new", middleware.isLoggedIn, function(req, res){
 	res.render("new");
 });
 
-router.post("/blogs", function(req, res){
+router.post("/blogs", middleware.isLoggedIn, function(req, res){
 	req.body.blog.content = req.sanitize(req.body.blog.content);
 	Blog.create(req.body.blog, function(err, newBlog){
 		if(err || !newBlog){
@@ -54,7 +54,7 @@ router.get("/blogs/:id", function(req, res){
 });
 
 //delete blog
-router.delete("/blogs/:id/delete", function(req, res){
+router.delete("/blogs/:id/delete", middleware.checkBlogOwnership, function(req, res){
 	Blog.findByIdAndRemove(req.params.id, function(err, info){
 		if(err){
 			req.flash("error", err.message);
@@ -66,7 +66,7 @@ router.delete("/blogs/:id/delete", function(req, res){
 });
 
 //edit blog routes
-router.get("/blogs/:id/edit", function(req, res){
+router.get("/blogs/:id/edit", middleware.checkBlogOwnership, function(req, res){
 	Blog.findById(req.params.id, function(err, foundBlog){
 		if(err || !foundBlog){
 			req.flash("error", err.message);
@@ -77,7 +77,7 @@ router.get("/blogs/:id/edit", function(req, res){
 	});
 });
 
-router.put("/blogs/:id/edit", function(req, res){
+router.put("/blogs/:id/edit", middleware.checkBlogOwnership, function(req, res){
 	req.body.blog.content = req.sanitize(req.body.blog.content);
 	Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, newBlog){
 		if(err || !newBlog){
@@ -91,7 +91,7 @@ router.put("/blogs/:id/edit", function(req, res){
 });
 
 //comment on blog
-router.post("/blogs/:id/comment/new", function(req, res){
+router.post("/blogs/:id/comment/new", middleware.isLoggedIn, function(req, res){
 	Blog.findById(req.params.id, function(err, foundBlog){
 		if(err || !foundBlog){
 			req.flash("error", err.message);
@@ -115,7 +115,7 @@ router.post("/blogs/:id/comment/new", function(req, res){
 });
 
 //delete comment
-router.delete("/blogs/:id/:comment_id/delete", function(req, res){
+router.delete("/blogs/:id/:comment_id/delete", middleware.checkCommentOwnership, function(req, res){
 	Comment.findByIdAndRemove(req.params.comment_id, function(err, info){
 		if(err){
 			req.flash("error", err.message);
@@ -127,7 +127,7 @@ router.delete("/blogs/:id/:comment_id/delete", function(req, res){
 });
 
 //edit comment
-router.put("/blogs/:id/:comment_id/edit", function(req, res){
+router.put("/blogs/:id/:comment_id/edit",  middleware.checkCommentOwnership, function(req, res){
 	Comment.findByIdAndUpdate(req.params.comment_id, {text:req.body.text}, function(err, newComment){
 		if(err || !newComment){
 			req.flash("error", "Unable to update comment at this time");
