@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
 var Blog = require("../models/blog");
+var Comment = require("../models/comment");
 
 //home routes
 router.get("/", function(req, res){
@@ -40,12 +41,36 @@ router.post("/blogs", function(req, res){
 
 //show individual blog route
 router.get("/blogs/:id", function(req, res){
-	Blog.findById(req.params.id, function(err, foundBlog){
+	Blog.findById(req.params.id).populate("comments").exec(function(err, foundBlog){
 		if(err || !foundBlog){
 			req.flash("error", err.message);
 			res.redirect("back");
 		} else {
 			res.render("show", {blog: foundBlog});
+		}
+	});
+});
+
+//comment on blog
+router.post("/blogs/:id/comment/new", function(req, res){
+	Blog.findById(req.params.id, function(err, foundBlog){
+		if(err || !foundBlog){
+			req.flash("error", err.message);
+			res.redirect("back");
+		} else {
+			Comment.create({text: req.body.text}, function(err, newComment){
+				if(err || !newComment){
+					req.flash("error", err.message);
+					res.redirect("back");
+				} else {
+					newComment.author = req.user.username;
+					newComment.save();
+					foundBlog.comments.push(newComment);
+					foundBlog.save();
+					req.flash("success", "Successfully created comment");
+					res.redirect("/blogs/"+req.params.id);
+				}
+			});
 		}
 	});
 });

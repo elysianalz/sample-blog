@@ -8,6 +8,24 @@
 			<p><%=blog.author%></p>
 			<p><%=blog.created.toDateString()%></p>
 		</div>
-	</div>	
+	</div>
+
+	<div class="well">
+
+		<p>Comment</p>
+
+		<form class="form-group" method="POST" action="/blogs/<%=blog._id%>/comment/new">
+			<input class="form-control" type="text" name="text" placeholder="add comment">
+			<button class="btn btn-md btn-default btn-primary">Comment</button>
+		</form>
+
+		<% blog.comments.forEach(function(comment){ %>
+			<hr>
+			<p><%=comment.author%></p>
+			<p><%=comment.text%></p>
+			<p><%=comment.created.toDateString()%></p>
+		<%});%>
+
+	</div>
 
 <% include ../partials/footer %>
