@@ -7,6 +7,9 @@ var LocalStrategy = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
 var User = require("./models/user");
 
+//routes files
+var blogRoutes = require("./routes/index");
+
 var app = express();
 
 app.set("view engine", "ejs");
@@ -29,6 +32,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser());
+
+app.use(blogRoutes);
 
 app.listen(5000, function(req, res){
 	console.log("test blog server has started");
