@@ -1,20 +1,23 @@
 <% include ../partials/header %>
 
-	<div class="thumbnail">
-		<h1><%=blog.title%></h1>
-		<img src="<%=blog.image%>">
-		<div class="caption">
-			<p><%=blog.content%></p>
-			<p><%=blog.author%></p>
-			<p><%=blog.created.toDateString()%></p>
-
-			<form action="/blogs/<%=blog._id%>/delete?_method=DELETE" method="POST">
-				<button class="btn btn-xs btn-danger">Delete</button>
-			</form>
-
-			<a href="/blogs/<%=blog._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
-			
-		</div>
+	<div class="thumbnail blog-head">
+		
+			<h1><%=blog.title%></h1>
+			<img id="blog-image" src="<%=blog.image%>">
+			<div class="caption">
+				<p><%=blog.content%></p>
+				<span><strong><em><%=blog.author%></em></strong></span>
+				<span class="pull-right"><%=blog.created.toDateString()%></span>
+				<div>
+					<form class="inline-form" action="/blogs/<%=blog._id%>/delete?_method=DELETE" method="POST">
+						<button class="btn btn-xs btn-danger">Delete</button>
+					</form>
+					<form class="inline-form" action="/blogs/<%=blog._id%>/edit">
+						<button class="btn btn-xs btn-warning inline-form">Edit</button>
+					</form>
+				</div>
+			</div>
+		
 	</div>
 
 	<div class="well">
@@ -22,26 +25,39 @@
 		<p>Comment</p>
 
 		<form class="form-group" method="POST" action="/blogs/<%=blog._id%>/comment/new">
-			<input class="form-control" type="text" name="text" placeholder="add comment">
-			<button class="btn btn-md btn-default btn-primary">Comment</button>
+			<div class="row">
+				<div class="col-md-10">
+					<input class="form-control" type="text" name="text" placeholder="add comment">
+				</div>
+				<div class="col-md-2">
+					<button class="btn btn-md btn-default btn-primary center-block comment-button">Comment</button>
+				</div>
+			</div>	
 		</form>
 
 		<% blog.comments.forEach(function(comment){ %>
 			<hr>
-			<p><%=comment.author%></p>
-			
+			<span><strong><%=comment.author%></strong></span>
+			<span class="pull-right"><%=comment.created.toDateString()%></span>
 			<p id="comment-text"><%=comment.text%></p>
-			<form class="form-group" id="edit-comment-form" method="POST" action="/blogs/<%-blog._id%>/<%=comment._id%>/edit?_method=PUT">
-				<input class="form-control" type="text" name="text" value="<%=comment.text%>">
-				<button class="btn btn-xs btn-warning">Edit</button>
-			</form>
-			<button id="cancle-button" class="btn btn-xs btn-danger">Cancle</button>
 
-			<p><%=comment.created.toDateString()%></p>
-			<form method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
-				<button class="btn btn-xs btn-danger">Delete</button>
+			<form class="form-group inline-form" id="edit-comment-form" method="POST" action="/blogs/<%-blog._id%>/<%=comment._id%>/edit?_method=PUT">
+				<div class="row">
+					<div class="col-md-10">
+						<input class="form-control" type="text" name="text" value="<%=comment.text%>">
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-md btn-warning inline-form">Edit</button>
+						<a id="cancle-button" class="btn btn-md btn-danger">Cancle</a>
+					</div>
+				</div>	
 			</form>
-			<button id="show-edit" class="btn btn-xs btn-warning">Edit</button>
+
+
+			<form class="inline-form" method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
+				<button id="delete-button" class="btn btn-xs btn-danger">Delete</button>
+			</form>
+			<button id="show-edit" class="btn btn-xs btn-warning inline-form">Edit</button>
 		<%});%>
 
 	</div>
