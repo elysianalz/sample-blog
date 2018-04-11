@@ -123,4 +123,17 @@ router.delete("/blogs/:id/:comment_id/delete", function(req, res){
 	});
 });
 
+//edit comment
+router.put("/blogs/:id/:comment_id/edit", function(req, res){
+	Comment.findByIdAndUpdate(req.params.comment_id, {text:req.body.text}, function(err, newComment){
+		if(err || !newComment){
+			req.flash("error", "Unable to update comment at this time");
+			res.redirect("/blogs/"+req.params.id);
+		} else {
+			req.flash("success", "Successfully updated comment");
+			res.redirect("/blogs/"+req.params.id);
+		}
+	});
+});
+
 module.exports = router;

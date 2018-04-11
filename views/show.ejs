@@ -29,11 +29,18 @@
 		<% blog.comments.forEach(function(comment){ %>
 			<hr>
 			<p><%=comment.author%></p>
-			<p><%=comment.text%></p>
+			
+			<p id="comment-text"><%=comment.text%></p>
+			<form class="form-group" id="edit-comment-form" method="POST" action="/blogs/<%-blog._id%>/<%=comment._id%>/edit?_method=PUT">
+				<input class="form-control" type="text" name="text" value="<%=comment.text%>">
+				<button class="btn btn-xs btn-warning">Edit</button>
+			</form>
+			
 			<p><%=comment.created.toDateString()%></p>
 			<form method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
 				<button class="btn btn-xs btn-danger">Delete</button>
 			</form>
+			<a href="/blogs/<%=blog._id%>/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
 		<%});%>
 
 	</div>
