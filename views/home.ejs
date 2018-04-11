@@ -1,20 +1,24 @@
 <% include ../partials/header %>
 	
-	<h1>Blogs</h1>
-	<% blogs.forEach(function(blog){%>
-	<a href="/blogs/<%=blog._id%>">
-		<div class="thumbnail">
-			<div class="container">
-				<h1><%=blog.title%></h1>
-				<img class="img-responsive" src="<%=blog.image%>">
-				<div class="caption">
-					<p><%=blog.content%></p>
-					<p><%=blog.author%></p>
-					<p><%=blog.created.toDateString()%></p>
+	<div class="sml-container center-block">
+		<h1>Blog Feed</h1>
+		<% blogs.forEach(function(blog){%>
+			<a href="/blogs/<%=blog._id%>">
+				<div class="thumbnail blog-head">
+					<div class="row">
+						<div class="col-sm-6 col-md-4">
+							<img class="img-responsive thumbnail-image" src="<%=blog.image%>">
+						</div>
+						<div class="col-sm-6 col-md-8">
+							<h1><%=blog.title%></h1>
+							<div class="caption">
+								<p><%=blog.created.toDateString()%></p>
+								<p><em><%=blog.content.substring(0,100)%>...read more</em></p>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-	</a>
-	<%})%>
-
+			</a>
+		<%})%>
+	</div>
 <% include ../partials/footer %>

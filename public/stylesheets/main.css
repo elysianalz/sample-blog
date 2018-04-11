@@ -17,9 +17,17 @@
 	width: 100%;
 }
 
+.thumbnail-image {
+	width:100%;
+}
 
 .inline-form {
 	display: inline;
+}
+
+.sml-container {
+	width: 70%;
+	min-width: 270px;
 }
 
 .navbar.navbar-inverse {

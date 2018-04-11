@@ -1,3 +1,5 @@
+
+//show and hide edit buttons and forms
 $("#show-edit").click(function(){
 	$("#edit-comment-form").show();
 	$("#cancle-button").show();
@@ -13,3 +15,4 @@ $("#cancle-button").click(function(){
 	$("#comment-text").show();
 	$("#delete-button").show();
 });
+/////////////////////////////////////
