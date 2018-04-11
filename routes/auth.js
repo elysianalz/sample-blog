@@ -22,4 +22,15 @@ router.post("/register", function(req, res){
 	});
 });
 
+//login routes
+router.get("/login", function(req, res){
+	res.render("login");
+});
+
+router.post("/login", passport.authenticate("local", {
+	successRedirect: "/blogs",
+	failureRedirect: "/login",
+	failureFlash: true
+}), function(req, res){});
+
 module.exports = router;
