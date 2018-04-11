@@ -38,4 +38,16 @@ router.post("/blogs", function(req, res){
 	});
 });
 
+//show individual blog route
+router.get("/blogs/:id", function(req, res){
+	Blog.findById(req.params.id, function(err, foundBlog){
+		if(err || !foundBlog){
+			req.flash("error", err.message);
+			res.redirect("back");
+		} else {
+			res.render("show", {blog: foundBlog});
+		}
+	});
+});
+
 module.exports = router;
