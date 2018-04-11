@@ -9,6 +9,7 @@ var User = require("./models/user");
 
 //routes files
 var blogRoutes = require("./routes/index");
+var authRoutes = require("./routes/auth");
 
 var app = express();
 
@@ -34,6 +35,7 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser());
 
 app.use(blogRoutes);
+app.use(authRoutes);
 
 app.listen(5000, function(req, res){
 	console.log("test blog server has started");
