@@ -5,3 +5,7 @@
 #cancle-button {
 	display: none;
 }
+
+.navbar.navbar-inverse {
+	border-radius: 0px;
+}
