@@ -18,7 +18,7 @@ var app = express();
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
-app.set(methodOverride("_method"));
+app.use(methodOverride("_method"));
 app.use(express.static(__dirname+ "/public"));
 app.use(flash());
 

@@ -51,6 +51,18 @@ router.get("/blogs/:id", function(req, res){
 	});
 });
 
+//delete blog
+router.delete("/blogs/:id/delete", function(req, res){
+	Blog.findByIdAndRemove(req.params.id, function(err, info){
+		if(err){
+			req.flash("error", err.message);
+		} else {
+			req.flash("success", "Successfully deleted blog");
+			res.redirect("/blogs");
+		}
+	})
+});
+
 //comment on blog
 router.post("/blogs/:id/comment/new", function(req, res){
 	Blog.findById(req.params.id, function(err, foundBlog){
