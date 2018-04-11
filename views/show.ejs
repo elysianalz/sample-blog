@@ -35,7 +35,8 @@
 				<input class="form-control" type="text" name="text" value="<%=comment.text%>">
 				<button class="btn btn-xs btn-warning">Edit</button>
 			</form>
-			
+			<button id="cancle-button" class="btn btn-xs btn-danger">Cancle</button>
+
 			<p><%=comment.created.toDateString()%></p>
 			<form method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
 				<button class="btn btn-xs btn-danger">Delete</button>
