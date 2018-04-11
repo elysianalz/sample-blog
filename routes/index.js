@@ -32,7 +32,7 @@ router.post("/blogs", function(req, res){
 			return res.redirect("back");
 		}
 		newBlog.author = req.user.username;
-		console.log(newBlog);
+		newBlog.save();
 		req.flash("success", "Blog successfully created");
 		res.redirect("/blogs");
 	});
