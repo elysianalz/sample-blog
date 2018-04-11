@@ -33,4 +33,11 @@ router.post("/login", passport.authenticate("local", {
 	failureFlash: true
 }), function(req, res){});
 
+//log out routes
+router.get("/logout", function(req, res){
+	req.logout();
+	req.flash("success", "Goodbye, thank you for visiting my blog :)")
+	res.redirect("/blogs");
+});
+
 module.exports = router;
