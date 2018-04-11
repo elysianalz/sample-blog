@@ -7,6 +7,7 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
 var User = require("./models/user");
+var Blog = require("./models/blog");
 
 //routes files
 var blogRoutes = require("./routes/index");
