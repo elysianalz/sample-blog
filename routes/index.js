@@ -8,7 +8,16 @@ router.get("/", function(req, res){
 });
 
 router.get("/blogs", function(req, res){
-	res.render("home");
+	Blog.find({}, function(err, foundBlogs){
+		if(err || !foundBlogs){
+			req.flash("error", err.message);
+			res.redirect("back");
+		} else {
+			console.log(foundBlogs);
+			res.render("home", {blogs: foundBlogs});
+		}
+	});
+	
 });
 
 //create new blog routes
