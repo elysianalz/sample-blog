@@ -11,6 +11,8 @@
 			<form action="/blogs/<%=blog._id%>/delete?_method=DELETE" method="POST">
 				<button class="btn btn-xs btn-danger">Delete</button>
 			</form>
+
+			<a href="/blogs/<%=blog._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
 			
 		</div>
 	</div>
@@ -29,6 +31,9 @@
 			<p><%=comment.author%></p>
 			<p><%=comment.text%></p>
 			<p><%=comment.created.toDateString()%></p>
+			<form method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
+				<button class="btn btn-xs btn-danger">Delete</button>
+			</form>
 		<%});%>
 
 	</div>
