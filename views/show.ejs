@@ -40,7 +40,7 @@
 			<form method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
 				<button class="btn btn-xs btn-danger">Delete</button>
 			</form>
-			<a href="/blogs/<%=blog._id%>/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
+			<button id="show-edit" class="btn btn-xs btn-warning">Edit</button>
 		<%});%>
 
 	</div>
