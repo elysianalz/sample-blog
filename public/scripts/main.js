@@ -28,3 +28,15 @@ $("#edit-about").click(function(){
 });
 
 ////////////////////////////////////////
+
+//add and remove active class on navbar
+
+
+$('.nav li').click(function(e){
+	e.preventDefault();
+    $(this).addClass('active');
+    $(this).siblings().removeClass('active');
+    window.location = $(this).attr("href");
+});
+
+//////////////////////////////////////

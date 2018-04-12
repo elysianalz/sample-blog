@@ -56,4 +56,17 @@ middlewareObj.isLoggedIn = function(req, res, next){
     res.redirect("/login");
 }
 
+middlewareObj.isAdmin = function(req, res, next){
+  if(req.isAuthenticated()){
+    if(req.user.isAdmin){
+      next();
+    } else {
+      req.flash("error", "You don't have permission to do that");
+      res.redirect("/blogs");
+    }
+  } else {
+    req.flash("error", "You need to be logged in to do that");
+  }
+}
+
 module.exports = middlewareObj;

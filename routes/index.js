@@ -37,7 +37,7 @@ router.get("/about", function(req, res){
 });
 
 //create new about
-router.post("/about/create", function(req, res){
+router.post("/about/create",middleware.isAdmin, function(req, res){
 	req.body.about.content = req.sanitize(req.body.about.content);
 	About.create(req.body.about, function(err, newAbout){
 		if(err || !newAbout){
@@ -51,7 +51,7 @@ router.post("/about/create", function(req, res){
 });
 
 //edit about
-router.put("/about/:id/edit", function(req, res){
+router.put("/about/:id/edit",middleware.isAdmin, function(req, res){
 	About.findByIdAndUpdate(req.params.id, req.body.about, function(err, updatedAbout){
 		if(err || !updatedAbout){
 			req.flash("error", "Failed to update about page")
@@ -64,11 +64,11 @@ router.put("/about/:id/edit", function(req, res){
 });
 
 //create new blog routes
-router.get("/blogs/new", middleware.isLoggedIn, function(req, res){
+router.get("/blogs/new", middleware.isAdmin, function(req, res){
 	res.render("new");
 });
 
-router.post("/blogs", middleware.isLoggedIn, function(req, res){
+router.post("/blogs", middleware.isAdmin, function(req, res){
 	req.body.blog.content = req.sanitize(req.body.blog.content);
 	Blog.create(req.body.blog, function(err, newBlog){
 		if(err || !newBlog){
@@ -180,6 +180,11 @@ router.put("/blogs/:id/:comment_id/edit",  middleware.checkCommentOwnership, fun
 			res.redirect("/blogs/"+req.params.id);
 		}
 	});
+});
+
+router.all('*', function(req, res) {
+    //throw new Error("Bad request");
+    res.redirect("/blogs");
 });
 
 module.exports = router;

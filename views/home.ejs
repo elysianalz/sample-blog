@@ -2,6 +2,7 @@
 	
 	<div class="sml-container center-block">
 		<h1>Blog Feed</h1>
+		<% blogs.reverse();%>
 		<% blogs.forEach(function(blog){%>
 			<a href="/blogs/<%=blog._id%>">
 				<div class="thumbnail blog-head">
