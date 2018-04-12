@@ -10,6 +10,10 @@ router.get("/register", function(req, res){
 
 router.post("/register", function(req, res){
 	User.register(new User({username: req.body.username, email: req.body.email}), req.body.password, function(err, newUser){
+		if(req.body.admin == adminpassword){
+			newUser.isAdmin = true;
+			newUser.save();
+		}
 		if(err || !newUser){
 			console.log(err.message);
 			req.flash("error", err.message);

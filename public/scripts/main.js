@@ -16,3 +16,15 @@ $("#cancle-button").click(function(){
 	$("#delete-button").show();
 });
 /////////////////////////////////////
+
+//edit/create about me page functionality
+$("#create-about").click(function(){
+	$("#create-about-form").show();
+});
+
+$("#edit-about").click(function(){
+	$("#edit-about-form").show();
+	$("#about-me").hide();
+});
+
+////////////////////////////////////////

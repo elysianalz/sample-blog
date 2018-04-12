@@ -3,6 +3,7 @@ var router = express.Router({mergeParams: true});
 var expressSanitizer = require("express-sanitizer");
 var Blog = require("../models/blog");
 var Comment = require("../models/comment");
+var About = require("../models/aboutme");
 var middleware = require("../middleware");
 
 //home routes
@@ -18,6 +19,46 @@ router.get("/blogs", function(req, res){
 		} else {
 			console.log(foundBlogs);
 			res.render("home", {blogs: foundBlogs});
+		}
+	});
+});
+
+//about routes
+router.get("/about", function(req, res){
+	About.find({}, function(err, foundAbout){
+		if(err){
+			req.flash("error", "Oops! Something went wrong");
+			console.log(err);
+			res.redirect("/blogs");
+		} else {
+			res.render("about", {aboutme: foundAbout});
+		}
+	});
+});
+
+//create new about
+router.post("/about/create", function(req, res){
+	req.body.about.content = req.sanitize(req.body.about.content);
+	About.create(req.body.about, function(err, newAbout){
+		if(err || !newAbout){
+			req.flash("error", "Oops! Something went wrong");
+			res.redirect("/about");
+		} else {
+			req.flash("success", "Successfully updated about me");
+			res.redirect("/about");
+		}
+	});
+});
+
+//edit about
+router.put("/about/:id/edit", function(req, res){
+	About.findByIdAndUpdate(req.params.id, req.body.about, function(err, updatedAbout){
+		if(err || !updatedAbout){
+			req.flash("error", "Failed to update about page")
+			res.redirect("/about");
+		} else {
+			req.flash("success", "Successfully updated about me");
+			res.redirect("/about");
 		}
 	});
 });

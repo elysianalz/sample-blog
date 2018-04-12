@@ -13,6 +13,15 @@
 	margin-bottom: 15px;
 }
 
+#create-about-form {
+	display:none;
+}
+
+#edit-about-form {
+	display: none;
+}
+
+
 .comment-button {
 	width: 100%;
 }
@@ -20,6 +29,10 @@
 .thumbnail-image {
 	width:100%;
 	border-radius: 3px;
+}
+
+#about-me.thumbnail-image {
+	max-height: 200px;
 }
 
 .inline-form {
