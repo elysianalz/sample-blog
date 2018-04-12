@@ -13,7 +13,7 @@ router.get("/", function(req, res){
 router.get("/blogs", function(req, res){
 	Blog.find({}, function(err, foundBlogs){
 		if(err || !foundBlogs){
-			req.flash("error", err.message);
+			req.flash("error", "Failed to find blogs");
 			res.redirect("back");
 		} else {
 			console.log(foundBlogs);
@@ -31,8 +31,8 @@ router.post("/blogs", middleware.isLoggedIn, function(req, res){
 	req.body.blog.content = req.sanitize(req.body.blog.content);
 	Blog.create(req.body.blog, function(err, newBlog){
 		if(err || !newBlog){
-			req.flash("error", err.message);
-			return res.redirect("back");
+			req.flash("error", "Failed to create new blog");
+			return res.redirect("/blogs");
 		}
 		newBlog.author = req.user.username;
 		newBlog.save();
@@ -45,8 +45,8 @@ router.post("/blogs", middleware.isLoggedIn, function(req, res){
 router.get("/blogs/:id", function(req, res){
 	Blog.findById(req.params.id).populate("comments").exec(function(err, foundBlog){
 		if(err || !foundBlog){
-			req.flash("error", err.message);
-			res.redirect("back");
+			req.flash("error", "That blog does not exist");
+			res.redirect("/blogs");
 		} else {
 			res.render("show", {blog: foundBlog});
 		}
@@ -56,8 +56,9 @@ router.get("/blogs/:id", function(req, res){
 //delete blog
 router.delete("/blogs/:id/delete", middleware.checkBlogOwnership, function(req, res){
 	Blog.findByIdAndRemove(req.params.id, function(err, info){
-		if(err){
-			req.flash("error", err.message);
+		if(err || !info){
+			req.flash("error", "Failed to delete blog");
+			res.redirect("/blogs");
 		} else {
 			req.flash("success", "Successfully deleted blog");
 			res.redirect("/blogs");
@@ -69,8 +70,8 @@ router.delete("/blogs/:id/delete", middleware.checkBlogOwnership, function(req, 
 router.get("/blogs/:id/edit", middleware.checkBlogOwnership, function(req, res){
 	Blog.findById(req.params.id, function(err, foundBlog){
 		if(err || !foundBlog){
-			req.flash("error", err.message);
-			res.redirect("back");
+			req.flash("error", "That blog does not exist");
+			res.redirect("/blogs");
 		} else {
 			res.render("edit", {blog: foundBlog});
 		}
@@ -81,8 +82,8 @@ router.put("/blogs/:id/edit", middleware.checkBlogOwnership, function(req, res){
 	req.body.blog.content = req.sanitize(req.body.blog.content);
 	Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, newBlog){
 		if(err || !newBlog){
-			req.flash("err", err.message);
-			res.redirect("back");
+			req.flash("err", "That blog does not exist");
+			res.redirect("/blogs");
 		} else {
 			req.flash("success", "Successfully updated blog");
 			res.redirect("/blogs/"+req.params.id);
@@ -94,13 +95,13 @@ router.put("/blogs/:id/edit", middleware.checkBlogOwnership, function(req, res){
 router.post("/blogs/:id/comment/new", middleware.isLoggedIn, function(req, res){
 	Blog.findById(req.params.id, function(err, foundBlog){
 		if(err || !foundBlog){
-			req.flash("error", err.message);
-			res.redirect("back");
+			req.flash("error", "That blog does not exist");
+			res.redirect("/blogs");
 		} else {
 			Comment.create({text: req.body.text}, function(err, newComment){
 				if(err || !newComment){
-					req.flash("error", err.message);
-					res.redirect("back");
+					req.flash("error", "Failed to comment on blog");
+					res.redirect("/blogs/"+req.params.id);
 				} else {
 					newComment.author = req.user.username;
 					newComment.save();
@@ -117,8 +118,9 @@ router.post("/blogs/:id/comment/new", middleware.isLoggedIn, function(req, res){
 //delete comment
 router.delete("/blogs/:id/:comment_id/delete", middleware.checkCommentOwnership, function(req, res){
 	Comment.findByIdAndRemove(req.params.comment_id, function(err, info){
-		if(err){
-			req.flash("error", err.message);
+		if(err || !info){
+			req.flash("error", "Failed to delete comment");
+			res.redirect("/blogs/"+ req.params.id)
 		} else {
 			req.flash("success", "Successfully deleted comment");
 			res.redirect("/blogs/"+ req.params.id);
@@ -130,7 +132,7 @@ router.delete("/blogs/:id/:comment_id/delete", middleware.checkCommentOwnership,
 router.put("/blogs/:id/:comment_id/edit",  middleware.checkCommentOwnership, function(req, res){
 	Comment.findByIdAndUpdate(req.params.comment_id, {text:req.body.text}, function(err, newComment){
 		if(err || !newComment){
-			req.flash("error", "Unable to update comment at this time");
+			req.flash("error", "Failed to update comment");
 			res.redirect("/blogs/"+req.params.id);
 		} else {
 			req.flash("success", "Successfully updated comment");
