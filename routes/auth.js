@@ -45,4 +45,9 @@ router.get("/logout", function(req, res){
 	res.redirect("/blogs");
 });
 
+router.all('*', function(req, res) {
+    //throw new Error("Bad request");
+    res.redirect("/blogs");
+});
+
 module.exports = router;

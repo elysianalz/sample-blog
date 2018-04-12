@@ -12,6 +12,9 @@ var Blog = require("./models/blog");
 var Comment = require("./models/comment");
 var About = require("./models/aboutme");
 var middleware = require("./middleware");
+var async = require("async");
+var nodemailer = require("nodemailer");
+var crypto = require("crypto");
 
 //routes files
 var blogRoutes = require("./routes/index");

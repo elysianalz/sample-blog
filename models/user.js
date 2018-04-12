@@ -9,7 +9,9 @@ var userSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Blog"
 	}],
-	isAdmin: {type: Boolean, default: false}
+	isAdmin: {type: Boolean, default: false},
+	resetPasswordToken: String,
+	resetPasswordExpires: Date,
 });
 
 userSchema.plugin(passportLocalMongoose);
