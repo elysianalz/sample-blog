@@ -1,17 +1,18 @@
 <% include ../partials/header %>
 		
 		<div class="sml-container center-block">
-			<h1>About Me</h1>
-
-			<%if(currentUser && currentUser.isAdmin){%>
-			<div class="form-group">
-				<%if(aboutme.length < 1){%>
-					<button id="create-about" class="btn btn-md btn-primary">Create</button>
-				<%} else {%>
-					<button id="edit-about" class="btn btn-md btn-primary">Edit</button>
+			<div class="heading-container">
+				<h1 class="inline-heading">About Me</h1>
+				<%if(currentUser && currentUser.isAdmin){%>
+				<div class="inline-form form-group">
+					<%if(aboutme.length < 1){%>
+						<button id="create-about" class="pull-right create-edit"><i class="fas fa-plus"></i></button>
+					<%} else {%>
+						<button id="edit-about" class="pull-right create-edit"><i class="fas fa-pencil-alt"></i></button>
+					<%}%>
+				</div>
 				<%}%>
 			</div>
-			<%}%>
 
 			<%if(aboutme.length > 0){%>
 				<div class="thumbnail" id="about-me">
