@@ -1,14 +1,12 @@
 <% include ../partials/header %>
+<div class="sml-container center-block">
 
 	<div class="thumbnail blog-head">
 		<h1 class="inline-heading"><%=blog.title%></h1>
 		<%if(currentUser && currentUser.username == blog.author){%>
 			<div class="pull-right">
-				<form class="inline-form" action="/blogs/<%=blog._id%>/delete?_method=DELETE" method="POST">
-					<button class="btn btn-xs btn-danger">Delete</button>
-				</form>
 				<form class="inline-form" action="/blogs/<%=blog._id%>/edit">
-					<button class="btn btn-xs btn-warning inline-form">Edit</button>
+					<button class="create-edit"><i class="fas fa-pencil-alt"></i></button>
 				</form>
 			</div>
 		<%}%>	
@@ -36,10 +34,11 @@
 		</form>
 
 		<% blog.comments.forEach(function(comment){ %>
+
 			<hr>
 			<span><strong><%=comment.author%></strong></span>
 			<span class="pull-right"><%=comment.created.toDateString()%></span>
-			<p id="comment-text"><%=comment.text%></p>
+			<p id="comment-text"><%=comment.text%><span class="gray-text"> ~</span><button id="show-edit" class="link-btn">Edit</button></p>
 
 			<%if(currentUser && currentUser.username == comment.author){%>
 				<form class="form-group inline-form" id="edit-comment-form" method="POST" action="/blogs/<%-blog._id%>/<%=comment._id%>/edit?_method=PUT">
@@ -48,21 +47,21 @@
 							<input class="form-control" type="text" name="text" value="<%=comment.text%>">
 						</div>
 						<div class="col-md-2">
-							<button class="btn btn-md btn-warning inline-form">Edit</button>
-							<a id="cancle-button" class="btn btn-md btn-danger">Cancle</a>
+							<button class="btn btn-md btn-warning inline-form edit-comment-btn">Edit</button>
 						</div>
 					</div>	
 				</form>
+				<a id="cancle-button" class="link-btn pull-right">Cancle</a>
 			<%}%>
 			
 			<%if(currentUser && currentUser.username == comment.author){%>
 				<form class="inline-form" method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
-					<button id="delete-button" class="btn btn-xs btn-danger">Delete</button>
+					<button id="delete-button" class="link-btn">Delete</button>
 				</form>
-				<button id="show-edit" class="btn btn-xs btn-warning inline-form">Edit</button>
 			<%}%>
+
 		<%});%>
 
 	</div>
-
+</div>
 <% include ../partials/footer %>

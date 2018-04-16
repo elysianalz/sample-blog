@@ -1,7 +1,15 @@
 <% include ../partials/header %>
-	
 	<div class="sml-container center-block">
-		<h1>Edit <%=blog.title%></h1>
+	<div class="heading-container">
+		<h1 class="inline-heading">Edit <%=blog.title%></h1>
+		<%if(currentUser && currentUser.username == blog.author){%>
+			<div class="pull-right">
+				<form class="inline-form" action="/blogs/<%=blog._id%>/delete?_method=DELETE" method="POST">
+					<button class="create-edit"><i class="fas fa-trash-alt"></i></button>
+				</form>
+			</div>
+		<%}%>
+	</div>	
 		<form id="auth-form" method="POST" action="/blogs/<%=blog._id%>/edit?_method=PUT">
 			<div class="form-group">
 				<input class="form-control" type="text" name="blog[title]" value="<%=blog.title%>">

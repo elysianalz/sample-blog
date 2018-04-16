@@ -1,19 +1,19 @@
 
 //show and hide edit buttons and forms
-$("#show-edit").click(function(){
+$("#show-edit").on("click", function(e){
 	$("#edit-comment-form").show();
 	$("#cancle-button").show();
 	$("#show-edit").hide();
 	$("#comment-text").hide();
-	$("#delete-button").hide();
+	$("#delete-button").show();
 });
 
-$("#cancle-button").click(function(){
+$("#cancle-button").on("click", function(e){
 	$("#edit-comment-form").hide();
 	$("#cancle-button").hide();
 	$("#show-edit").show();
 	$("#comment-text").show();
-	$("#delete-button").show();
+	$("#delete-button").hide();
 });
 /////////////////////////////////////
 

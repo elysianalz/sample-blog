@@ -55,7 +55,7 @@ app.use(function(req, res, next){
 app.use(blogRoutes);
 app.use(authRoutes);
 
-app.listen(5000, function(req, res){
+app.listen(5000, "127.0.0.1", function(req, res){
 	console.log("test blog server has started");
 });
 
