@@ -1,19 +1,19 @@
 
 //show and hide edit buttons and forms
-$("#show-edit").on("click", function(e){
-	$("#edit-comment-form").show();
-	$("#cancle-button").show();
+$(".show-edit").on("click", function(e){
+	$(".edit-comment-form").show();
+	$(".cancle-button").show();
 	$("#show-edit").hide();
 	$("#comment-text").hide();
-	$("#delete-button").show();
+	$(".delete-button").show();
 });
 
-$("#cancle-button").on("click", function(e){
-	$("#edit-comment-form").hide();
-	$("#cancle-button").hide();
+$(".cancle-button").on("click", function(e){
+	$(".edit-comment-form").hide();
+	$(".cancle-button").hide();
 	$("#show-edit").show();
 	$("#comment-text").show();
-	$("#delete-button").hide();
+	$(".delete-button").hide();
 });
 /////////////////////////////////////
 
@@ -30,6 +30,5 @@ $("#edit-about").click(function(){
 ////////////////////////////////////////
 
 //add and remove active class on navbar
-
 
 //////////////////////////////////////

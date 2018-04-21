@@ -38,28 +38,28 @@
 			<hr>
 			<span><strong><%=comment.author%></strong></span>
 			<span class="pull-right"><%=comment.created.toDateString()%></span>
-			<p id="comment-text"><%=comment.text%><span class="gray-text"> ~</span><button id="show-edit" class="link-btn">Edit</button></p>
+			<p id="comment-text"><%=comment.text%><%if(currentUser && currentUser.username == comment.author){%><span class="gray-text"> ~</span><button class="link-btn show-edit">Edit</button><%}%></p>
 
 			<%if(currentUser && currentUser.username == comment.author){%>
-				<form class="form-group inline-form" id="edit-comment-form" method="POST" action="/blogs/<%-blog._id%>/<%=comment._id%>/edit?_method=PUT">
+				<form class="form-group inline-form edit-comment-form" method="POST" action="/blogs/<%-blog._id%>/<%=comment._id%>/edit?_method=PUT">
 					<div class="row">
 						<div class="col-md-10">
 							<input class="form-control" type="text" name="text" value="<%=comment.text%>">
 						</div>
 						<div class="col-md-2">
-							<button class="btn btn-md btn-warning inline-form edit-comment-btn">Edit</button>
+							<button class="btn btn-md btn-warning inline-form edit-comment-btn">Save</button>
 						</div>
 					</div>	
 				</form>
-				<a id="cancle-button" class="link-btn pull-right">Cancle</a>
+				<a class="link-btn pull-right cancle-button">Cancle</a>
 			<%}%>
 			
 			<%if(currentUser && currentUser.username == comment.author){%>
 				<form class="inline-form" method="POST" action="/blogs/<%=blog._id%>/<%=comment._id%>/delete?_method=DELETE">
-					<button id="delete-button" class="link-btn">Delete</button>
+					<button class="link-btn delete-button">Delete</button>
 				</form>
 			<%}%>
-
+			
 		<%});%>
 
 	</div>
